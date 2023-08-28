@@ -1,6 +1,9 @@
 import gameController from '../../controllers/gameController.js';
 import Game from '../../models/gameModel.js';
 import mongoose from 'mongoose';
+import { configDotenv } from 'dotenv';
+
+configDotenv();
 
 // Mock the response object
 const res = {
@@ -13,7 +16,7 @@ jest.mock('../../models/gameModel.js');
 
 describe('gameController', () => {
   beforeAll(() => {
-    const mongoUri = 'mongodb+srv://farizirfani:farizirfani291104@cluster0.pcolfdm.mongodb.net/';
+    const mongoUri = process.env.MONGO_URI;
     mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -22,7 +25,7 @@ describe('gameController', () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
-  });
+  }, 10000);
 
   describe('getAllGames', () => {
     afterEach(() => {
